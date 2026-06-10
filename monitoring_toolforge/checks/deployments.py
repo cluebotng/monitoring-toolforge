@@ -37,7 +37,7 @@ async def get_latest_deployment(tool_name: str) -> None:
 
             response = await r.json()
             latest_deployment_successful.labels(tool=tool_name).set(
-                1 if response["data"]["status"] == "" else 0
+                1 if response["data"]["status"] == "successful" else 0
             )
             for build, status in response["data"].get("builds", {}).items():
                 latest_deployment_build_successful.labels(
