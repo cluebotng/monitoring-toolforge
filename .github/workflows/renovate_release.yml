@@ -1,0 +1,19 @@
+name: Create Release For Renovate
+on: { push: { branches: [ 'main' ] } }
+jobs:
+  renovate-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: infrabits/ci-create-renovate-release@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    needs: [renovate-release]
+    uses: ./.github/workflows/deploy.yml
+    with:
+      ref: 'refs/tags/${{ needs.renovate-release.outputs.tag_name }}'
+    secrets: inherit
+    if: needs.renovate-release.outputs.tag_name != ''
