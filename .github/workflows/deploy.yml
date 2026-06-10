@@ -15,6 +15,6 @@ jobs:
       - uses: cluebotng/ci-update-component-ref@main
         with:
           tool: '*'
-          component: 'toolforge-exporter'
+          repository: 'https://github.com/cluebotng/monitoring-toolforge.git'
           ref: '${{ inputs.ref || github.ref }}'
           gh_app_key: '${{ secrets.CI_COMPONENT_CONFIGS_APP_KEY }}'
