@@ -42,4 +42,4 @@ async def get_latest_deployment(tool_name: str) -> None:
             for build, status in response["data"].get("builds", {}).items():
                 latest_deployment_build_successful.labels(
                     tool=tool_name, build=build
-                ).set(1 if status["build_status"] == "successful" else 0)
+                ).set(1 if status["build_status"] in ("successful", "skipped") else 0)
