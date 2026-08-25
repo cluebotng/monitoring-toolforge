@@ -12,6 +12,7 @@ from prometheus_client import (
 
 from monitoring_toolforge.checks.builds import get_current_builds
 from monitoring_toolforge.checks.deployments import get_latest_deployment
+from monitoring_toolforge.checks.services.wiki_replica import get_wiki_replica_lag
 from monitoring_toolforge.helpers import get_tool_name
 from monitoring_toolforge.checks.jobs import get_current_jobs
 
@@ -40,6 +41,7 @@ async def _render_metrics():
         get_current_jobs(tool_name),
         get_current_builds(tool_name),
         get_latest_deployment(tool_name),
+        get_wiki_replica_lag("s1"),  # enwiki_p is in s1
     )
     return generate_latest()
 

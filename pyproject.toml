@@ -6,5 +6,6 @@ dependencies = [
     "prometheus-client",
     "fastapi[standard]",
     "aiohttp",
+    "asyncmy ; python_version <'4.0'",
     "PyYAML",
 ]
