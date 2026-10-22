@@ -21,6 +21,10 @@ jobs:
 
   build-container:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [toolforge-stable, toolforge-latest, upstream]
     needs: [setup-build, execute-lint, execute-test]
     permissions:
       security-events: write
@@ -30,8 +34,9 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Build container
-        uses: infrabits/ci-pack@main
+        uses: infrabits/ci-pack@7d780bea1318c60b7ed280428a1d37e3c71aaca2 # main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          image: ghcr.io/${{ github.repository }}:${{ github.sha }}
-          use_builder: latest
+          image: ghcr.io/${{ github.repository }}:${{ matrix.target }}-${{ github.sha }}
+          use_builder: ${{ matrix.target }}
+          run_safety_checks: ${{ matrix.target == 'toolforge-stable' && 'true' || 'false' }}
